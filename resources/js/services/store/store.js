@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from "vuex";
-import abilities from '../abilities';
+import abilities from './abilities';
+import auth from './auth'
 import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
 
@@ -71,6 +72,10 @@ export default new Vuex.Store(
                     })
                 }
             },
+        },
+
+        modules: {
+            auth
         }
     });
 

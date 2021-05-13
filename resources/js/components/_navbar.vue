@@ -1,101 +1,98 @@
 <template>
-    <v-toolbar  fixed>
-        <v-toolbar-items @click.stop="drawer = !drawer"></v-toolbar-items>
-        <v-toolbar-title>Todo App</v-toolbar-title>
-        <v-spacer></v-spacer>
-
-        <v-menu
-            offset-y
-            origin="center center"
-            class="elevation-1"
-            :nudge-bottom="14"
-            transition="scale-transition"
+    <div>
+        <v-app-bar
+            app
+            color="white"
+            flat
         >
-            <!--            <v-btn @click="markAsRead" icon flat slot="activator">-->
-            <!--                <v-badge color="red" overlap>-->
-            <!--                    <span slot="badge">{{unreadNotifications.length}}</span>-->
-            <!--                    <v-icon medium>notifications</v-icon>-->
-            <!--                </v-badge>-->
-            <!--            </v-btn>-->
+            <v-container class="py-0 fill-height">
 
-            <!--            <v-list>-->
-            <!--                <v-list-item :class="{'green': notification.read_at==null}" @click="markAsRead" v-for="notification in allNotifications" :key="notification.id">-->
-            <!--                    <v-list-item-content>-->
-            <!--                        <v-list-item-title>{{notification.data.createdUser.name}} has just registered on {{notification.created_at}}</v-list-item-title>-->
-            <!--                    </v-list-item-content>-->
-            <!--                </v-list-item>-->
-            <!--            </v-list>-->
-        </v-menu>
-        <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
-            <v-btn icon large text
-                   d
-            >
-                <v-avatar size="30px">
-                    <img src="https://via.placeholder.com/150" alt="Michael Wang">
-                </v-avatar>
-            </v-btn>
-            <v-list class="pa-0">
-                <v-list-item ripple="ripple" rel="noopener">
-                    <v-list-item-content>
-                        <v-list-item-title>{{this.$store.state.user.name}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+<!--                Authenticated=false             -->
+                <template v-if="!authenticated">
+                <v-btn
+                    class="flex align-content-around"
+                    text>
+                    <router-link to="login">Login</router-link>
 
-            <v-list class="pa-0">
-                <v-list-item @click="logout" ripple="ripple" rel="noopener">
-                    <v-list-item-action>
-                        <v-icon>account_circle</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Logout</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-menu>
-    </v-toolbar>
+                </v-btn>
+                <v-btn
+                    class="flex align-content-around"
+                    text>
+                    <router-link to="register">Register</router-link>
+                </v-btn>
+                </template>
+
+<!--                Authenticated=true                  -->
+                <template v-else-if="authenticated">
+                    <v-avatar
+                        class="mr-10"
+                        color="grey darken-1"
+                        size="32"
+                    ></v-avatar>
+                    <li v-for="role in user.role"> {{role.name}}</li>
+                    <v-btn
+                        class="flex align-content-around"
+                        text>
+                        <router-link to="home">Home</router-link>
+
+                    </v-btn>
+
+                    <v-btn
+                        class="flex align-content-around"
+                        text>
+                        <router-link to="add">Add</router-link>
+
+                    </v-btn>
+                    <v-btn
+                        class="flex align-content-around"
+                        text>
+                        <a href="#" @click.prevent="logOut">Logout</a>
+
+                    </v-btn>
+
+                <v-spacer></v-spacer>
+
+                <v-responsive max-width="260">
+                    <v-text-field
+                        dense
+                        flat
+                        hide-details
+                        rounded
+                        solo-inverted
+                    ></v-text-field>
+                </v-responsive>
+                </template>
+            </v-container>
+        </v-app-bar>
+    </div>
 </template>
 
-
 <script>
+
+import { mapGetters, mapActions} from 'vuex'
+
 export default {
-    data: () => ({
-        drawer: null,
-        // allNotifications: [],
-        // unreadNotifications: [],
-    }),
-    // watch:{
-    //     allNotifications(val){
-    //         this.unreadNotifications =  this.allNotifications.filter(notification => {
-    //             return notification.read_at == null;
-    //         });
-    //     }
-    // },
-    methods: {
-
-        logout() {
-            axios.post('api/logout')
-                .then(() => {
-                    this.$store.state.user.isLoggedIn = !this.$store.state.user.isLoggedIn ;
-                    this.$router.push('login');
-                });
-        }
-
-        // markAsRead() {
-        //     axios.get("/mark-all-read/" + this.user.id).then(response=>{
-        //         this.unreadNotifications = [];
-        //     });
-        // }
+    data() {
+        return {}
     },
 
-    created() {
-        // this.allNotifications = this.user.notifications;
-        // this.unreadNotifications =  this.allNotifications.filter(notification => {
-        //     return notification.read_at == null;
-        // });
-        // Echo.private("App.User." + this.user.id).notification(notification => {
-        //   this.allNotifications.unshift(notification.notification);
-        // });
+    computed: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+
+        })
+    },
+
+    methods: {
+        ...mapActions({
+            logOutAction: 'auth/logout'
+        }),
+
+        logOut() {
+            this.logOutAction()
+
+        }
     }
-};
+}
 </script>

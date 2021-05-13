@@ -1,33 +1,138 @@
 <template>
-    <div class="container">
-        <div class="card card-default">
-            <div class="card-header">Inscription</div>
-            <div class="card-body">
-                <div class="alert alert-danger" v-if="has_error && !success">
-                    <p v-if="error == 'registration_validation_error'">Erreur(s) de validation, veuillez consulter le(s) message(s) ci-dessous.</p>
-                    <p v-else>Erreur, impossible de s'inscrire pour le moment. Si le problème persiste, veuillez contacter un administrateur.</p>
-                </div>
-                <form autocomplete="off" @submit.prevent="register" v-if="!success" method="post">
-                    <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.email }">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email">
-                        <span class="help-block" v-if="has_error && errors.email">{{ errors.email }}</span>
-                    </div>
-                    <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" id="password" class="form-control" v-model="password">
-                        <span class="help-block" v-if="has_error && errors.password">{{ errors.password }}</span>
-                    </div>
-                    <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
-                        <label for="password_confirmation">Confirmation mot de passe</label>
-                        <input type="password" id="password_confirmation" class="form-control" v-model="password_confirmation">
-                    </div>
-                    <button type="submit" class="btn btn-default">Inscription</button>
-                </form>
-            </div>
-        </div>
-    </div>
+        <v-content>
+            <v-container class="fill-height" fluid>
+                <v-row align="center" justify="center">
+                    <v-col cols="12" sm="8" md="8">
+                        <v-card class="elevation-12">
+                            <v-window v-model="step">
+                                <v-window-item :value="1">
+                                    <v-row>
+                                        <v-col cols="12" md="8">
+                                            <v-card-text class="mt-12">
+                                                <h1
+                                                    class="text-center display-2 teal--text text--accent-3"
+                                                >Sign in to Diprella</h1>
+                                                <div class="text-center mt-4">
+                                                    <v-btn class="mx-2" fab color="black" outlined>
+                                                        <v-icon>fab fa-facebook-f</v-icon>
+                                                    </v-btn>
+
+                                                    <v-btn class="mx-2" fab color="black" outlined>
+                                                        <v-icon>fab fa-google-plus-g</v-icon>
+                                                    </v-btn>
+                                                    <v-btn class="mx-2" fab color="black" outlined>
+                                                        <v-icon>fab fa-linkedin-in</v-icon>
+                                                    </v-btn>
+                                                </div>
+                                                <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                                                <v-form>
+                                                    <v-text-field
+                                                        label="Email"
+                                                        name="Email"
+                                                        prepend-icon="email"
+                                                        type="text"
+                                                        color="teal accent-3"
+                                                    />
+
+                                                    <v-text-field
+                                                        id="password"
+                                                        label="Password"
+                                                        name="password"
+                                                        prepend-icon="lock"
+                                                        type="password"
+                                                        color="teal accent-3"
+                                                    />
+                                                </v-form>
+                                                <h3 class="text-center mt-4">Forgot your password ?</h3>
+                                            </v-card-text>
+                                            <div class="text-center mt-3">
+                                                <v-btn rounded color="teal accent-3" dark>SIGN IN</v-btn>
+                                            </div>
+                                        </v-col>
+                                        <v-col cols="12" md="4" class="teal accent-3">
+                                            <v-card-text class="white--text mt-12">
+                                                <h1 class="text-center display-1">Hello, Friend!</h1>
+                                                <h5
+                                                    class="text-center"
+                                                >Enter your personal details and start journay with us</h5>
+                                            </v-card-text>
+                                            <div class="text-center">
+                                                <v-btn rounded outlined dark @click="step++">SIGN UP</v-btn>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+                                </v-window-item>
+                                <v-window-item :value="2">
+                                    <v-row class="fill-height">
+                                        <v-col cols="12" md="4" class="teal accent-3">
+                                            <v-card-text class="white--text mt-12">
+                                                <h1 class="text-center display-1">Welcome Back!</h1>
+                                                <h5
+                                                    class="text-center"
+                                                >To Keep connected with us please login with your personnel info</h5>
+                                            </v-card-text>
+                                            <div class="text-center">
+                                                <v-btn rounded outlined dark @click="step--">Sign in</v-btn>
+                                            </div>
+                                        </v-col>
+
+                                        <v-col cols="12" md="8">
+                                            <v-card-text class="mt-12">
+                                                <h1 class="text-center display-2 teal--text text--accent-3">Create Account</h1>
+                                                <div class="text-center mt-4">
+                                                    <v-btn class="mx-2" fab color="black" outlined>
+                                                        <v-icon>fab fa-facebook-f</v-icon>
+                                                    </v-btn>
+
+                                                    <v-btn class="mx-2" fab color="black" outlined>
+                                                        <v-icon>fab fa-google-plus-g</v-icon>
+                                                    </v-btn>
+                                                    <v-btn class="mx-2" fab color="black" outlined>
+                                                        <v-icon>fab fa-linkedin-in</v-icon>
+                                                    </v-btn>
+                                                </div>
+                                                <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                                                <v-form>
+                                                    <v-text-field
+                                                        label="Name"
+                                                        name="Name"
+                                                        prepend-icon="person"
+                                                        type="text"
+                                                        color="teal accent-3"
+                                                    />
+                                                    <v-text-field
+                                                        label="Email"
+                                                        name="Email"
+                                                        prepend-icon="email"
+                                                        type="text"
+                                                        color="teal accent-3"
+                                                    />
+
+                                                    <v-text-field
+                                                        id="password"
+                                                        label="Password"
+                                                        name="password"
+                                                        prepend-icon="lock"
+                                                        type="password"
+                                                        color="teal accent-3"
+                                                    />
+                                                </v-form>
+                                            </v-card-text>
+                                            <div class="text-center mt-n5">
+                                                <v-btn rounded color="teal accent-3" dark>SIGN UP</v-btn>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+                                </v-window-item>
+                            </v-window>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-content>
 </template>
+
+
 <script>
 export default {
     data() {
@@ -39,7 +144,13 @@ export default {
             has_error: false,
             error: '',
             errors: {},
-            success: false
+            success: false,
+            step: 1
+        }
+    },
+    computed: {
+        passwordMatch() {
+            return () => this.password === this.verify || "Password must match";
         }
     },
     methods: {
