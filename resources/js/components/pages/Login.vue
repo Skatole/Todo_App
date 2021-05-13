@@ -1,33 +1,66 @@
 <template>
-    <div class="container">
-        <div class="card card-default">
-            <div class="card-header">Connexion</div>
-            <div class="card-body">
-                <div class="alert alert-danger" v-if="has_error">
-                    <p>Erreur, impossible de se connecter avec ces identifiants.</p>
-                </div>
-                <form autocomplete="off" @submit.prevent="login" method="post">
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" id="password" class="form-control" v-model="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-default">Connexion</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    <v-container fluid fill-height>
+        <v-layout flex align-center justify-center>
+            <v-flex xs12 sm8 md9>
+                <v-card class="elevation-1">
+                    <v-toolbar dark color="primary">
+                        <v-toolbar-title>Login form</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form v-model="valid">
+                            <v-text-field
+                                label="E-mail"
+                                prepend-icon="person"
+                                name="login"
+                                type="text"
+                                :rules="emailRules"
+                                v-model="params.email"
+                                required
+                            ></v-text-field>
+                            <v-text-field
+                                label="Password"
+                                min="8"
+                                id="password"
+                                prepend-icon="lock"
+                                name="password"
+                                type="password"
+                                :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                                :append-icon-cb="() => (e1 = !e1)"
+                                :type="e1 ? 'password' : 'text'"
+                                :rules="passwordRules"
+                                v-model="params.password"
+                                counter
+                                required
+                            ></v-text-field>
+                            <v-layout justify-space-between>
+                                <v-btn @click="login" :class=" { 'blue darken-4 white--text' : valid, disabled: !valid }">Login</v-btn>
+                            </v-layout>
+                        </v-form>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+
 </template>
 <script>
 export default {
     data() {
         return {
-            email: null,
-            password: null,
-            has_error: false
+            user: {},
+            params: {
+                email: null,
+                password: null,
+            },
+                e1: true,
+                valid: false,
+                passwordRules: [
+                    (v) => !!v || 'Password is required',
+                ],
+                emailRules: [
+                    (v) => !!v || 'E-mail is required',
+                    (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+                ],
         }
     },
     mounted() {
@@ -36,26 +69,31 @@ export default {
     methods: {
         login() {
             // get the redirect object
-            console.log(...this.$auth);
-            const redirect = this.$auth.redirect()
-            const app = this
-            this.$auth.login({
-                params: {
-                    email: app.email,
-                    password: app.password
-                },
-                success: function() {
-                    // handle redirection
-                    const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 3 ? 'admin.dashboard' : 'dashboard'
-                    this.$router.push({name: redirectTo})
-                },
-                error: function() {
-                    app.has_error = true
-                },
-                rememberMe: true,
-                fetchUser: true
-            })
-        }
+                axios.post('api/auth/login', this.params)
+                .then(response => {
+                    if (response.status === 200) {
+                        this.user = response.data;
+                        this.$store.commit('login', this.user);
+                        window.localStorage.setItem('authUser', JSON.stringify(this.user))
+                        axios.get('api/users/' + this.params,
+                        {headers: { 'Authorization' : 'Bearer '+ api_token}})
+                            .then(response => {
+                                this.user = response.data;
+                                console.log(this.user);
+                                this.$store.commit('getUser', this.user)
+                            });
+                        axios.get('api/role',
+                            {headers: { 'Authorization' : 'Bearer '+ api_token}})
+                            .then(response => {
+                                console.log(response.data);
+                                this.$store.commit('login', response.data)
+                            })
+
+                            this.$router.push('home');
+                    }
+
+                })
+        },
     }
 }
 </script>

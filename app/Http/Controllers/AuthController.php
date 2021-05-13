@@ -32,7 +32,9 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
-            return response()->json(['status' => 'success'], 200)->header('Authorization', $token);
+            return response()->json([
+                'status' => 'success',
+            ], 200)->header('Authorization', $token);
         }
         return response()->json(['error' => 'login_error'], 401);
     }
@@ -44,14 +46,7 @@ class AuthController extends Controller
             'msg' => 'Logged out Successfully.'
         ], 200);
     }
-    public function user(Request $request)
-    {
-        $user = User::find(Auth::user()->id);
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
-    }
+
     public function refresh()
     {
         if ($token = $this->guard()->refresh()) {

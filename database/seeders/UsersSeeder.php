@@ -22,12 +22,13 @@ class UsersSeeder extends Seeder
             $user->assignRole('Manager');
         });
 
-        $admin = User::create([
+        User::factory()->count(1)->create([
            'name'=>'Admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('admin'),
-        ]);
+        ])->each(function ($admin) {
+            $admin->assignRole('Admin');
+        });
 
-        $admin->assignRole('Admin');
     }
 }

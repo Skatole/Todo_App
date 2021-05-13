@@ -1,15 +1,81 @@
-<template>
-    <div class="container">
-        <div class="card card-default">
-            <div class="card-header">Bienvenue</div>
-            <div class="card-body">
-                <p>
-                    American  Main Barbary Coast scuttle hardtack spanker fire ship grapple jack code  of conduct port. Port red ensign Shiver me timbers provost salmagundi  bring a spring upon her cable pillage cog crow's nest lateen sail.  Barbary Coast quarterdeck lass coffer keel hulk mizzen me square-rigged  loot.
-                </p>
-                <p>
-                    Yardarm starboard keelhaul list schooner prow booty cackle  fruit gabion topmast. Plunder shrouds Nelsons folly jack Arr parley warp  grog blossom ballast pressgang. Knave crack Jennys tea cup flogging log  man-of-war hearties killick long clothes six pounders hulk.
-                </p>
-            </div>
-        </div>
-    </div>
-</template>
+<!--<template>-->
+<!--        <v-app-bar-->
+<!--            app-->
+<!--            color="white"-->
+<!--            flat-->
+<!--        >-->
+<!--            <v-container class="py-0 fill-height">-->
+<!--                <v-avatar-->
+<!--                    class="mr-10"-->
+<!--                    color="grey darken-1"-->
+<!--                    size="32"-->
+<!--                ></v-avatar>-->
+
+<!--                <v-btn-->
+<!--                    v-for="link in links"-->
+<!--                    :key="link"-->
+<!--                    text-->
+<!--                >-->
+<!--                    {{ link }}-->
+<!--                </v-btn>-->
+
+<!--                <v-spacer></v-spacer>-->
+
+<!--                <v-responsive max-width="260">-->
+<!--                    <v-text-field-->
+<!--                        dense-->
+<!--                        flat-->
+<!--                        hide-details-->
+<!--                        rounded-->
+<!--                        solo-inverted-->
+<!--                    ></v-text-field>-->
+<!--                </v-responsive>-->
+<!--            </v-container>-->
+<!--        </v-app-bar>-->
+
+<!--        <v-main class="grey lighten-3">-->
+<!--            <v-container>-->
+<!--                <v-row>-->
+<!--                    <v-col cols="2">-->
+<!--                        <v-sheet rounded="lg">-->
+<!--                            <v-list color="transparent">-->
+<!--                                <v-list-item-->
+<!--                                    v-for="n in 5"-->
+<!--                                    :key="n"-->
+<!--                                    link-->
+<!--                                >-->
+<!--                                    <v-list-item-content>-->
+<!--                                        <v-list-item-title>-->
+<!--                                            List Item {{ n }}-->
+<!--                                        </v-list-item-title>-->
+<!--                                    </v-list-item-content>-->
+<!--                                </v-list-item>-->
+
+<!--                                <v-divider class="my-2"></v-divider>-->
+
+<!--                                <v-list-item-->
+<!--                                    link-->
+<!--                                    color="grey lighten-4"-->
+<!--                                >-->
+<!--                                    <v-list-item-content>-->
+<!--                                        <v-list-item-title>-->
+<!--                                            Refresh-->
+<!--                                        </v-list-item-title>-->
+<!--                                    </v-list-item-content>-->
+<!--                                </v-list-item>-->
+<!--                            </v-list>-->
+<!--                        </v-sheet>-->
+<!--                    </v-col>-->
+
+<!--                    <v-col>-->
+<!--                        <v-sheet-->
+<!--                            min-height="70vh"-->
+<!--                            rounded="lg"-->
+<!--                        >-->
+<!--                            &lt;!&ndash;  &ndash;&gt;-->
+<!--                        </v-sheet>-->
+<!--                    </v-col>-->
+<!--                </v-row>-->
+<!--            </v-container>-->
+<!--        </v-main>-->
+<!--</template>-->

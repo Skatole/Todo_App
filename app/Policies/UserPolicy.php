@@ -11,7 +11,7 @@ class UserPolicy
 
     public function index(User $user) {
 
-        if($user->getRoleNames() == 'Admin') {
+        if($user->getRoleNames() == 'Admin' | 'Developer' | 'Manager') {
             return true;
         };
         return false;
@@ -20,7 +20,7 @@ class UserPolicy
 
     public function show(User $user) {
 
-        if($user->getRoleNames() == 'Admin' | 'Developer' | 'Manager') {
+        if($user->getUserRole() == 'Admin' | 'Developer' | 'Manager') {
             return true;
         };
         return false;

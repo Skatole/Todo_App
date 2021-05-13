@@ -13,10 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-    Route::get('/{any}', function (){
+//    Route::get('/', function () {
+//        return view('welcome');
+//    });
+
+// Route to handle page reload in Vue except for api routes
+    Route::get('/{any?}', function (){
         return view('welcome');
     })->where('any', '^(?!api\/)[\/\w\.-]*');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

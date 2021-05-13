@@ -10,25 +10,33 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@vue/cli-plugin-router": "^4.5.12",
         "axios": "^0.21.1",
         "bootstrap": "^4.6.0",
+        "deepmerge": "^4.2.2",
+        "husky": "^4.2.5",
         "jquery": "^3.6",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",
         "postcss": "^8.1.14",
         "resolve-url-loader": "^3.1.2",
-        "sass": "^1.32.11",
-        "sass-loader": "^11.0.1",
+        "sass": "^1.32.12",
+        "sass-loader": "^11.1.0",
         "vue": "^2.6.12",
         "vue-loader": "^15.9.5",
-        "vue-template-compiler": "^2.6.12",
-        "husky": "^4.2.5"
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@websanova/vue-auth": "^4.1.1",
+        "@casl/ability": "^5.2.2",
+        "@casl/vue": "^1.2.2",
+        "@vue/cli-service": "^3.12.1",
         "es6-promise": "^4.2.8",
+        "js-cookie": "^2.2.1",
         "vue-axios": "^3.2.4",
-        "vue-router": "^3.5.1"
+        "vue-router": "^3.5.1",
+        "vuetify": "^2.4.11",
+        "vuex": "^3.6.2",
+        "vuex-persistedstate": "^4.0.0-beta.3"
     }
 }
