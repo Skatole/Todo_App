@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\Auth\LoginController;
 use \App\Http\Controllers\Auth\LogoutController;
+use \App\Http\Controllers\Auth\RegisterController;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\RoleController;
 
 
     /*
@@ -27,12 +29,13 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function() {
    Route::post('login', [LoginController::class, 'index']);
    Route::post('logout', [LogoutController::class, 'index'])->middleware('jwt.auth', 'jwt.refresh');
    Route::get('user', [UserController::class, 'index']);
+   Route::post('register', [RegisterController::class, 'register']);
 //   Route::get('refresh', [AuthController::class, 'refresh']);
-//   Route::post('register', [AuthController::class, 'register']);
 });
 
-//Route::group(['middleware' => 'auth:api'], function() {
-////    Users
-//    Route::get('users', [UserController::class, 'index'])->middleware('can:index,user');
-//    Route::get('role', [UserController::class, 'role']);
-//});
+Route::group(['middleware' => 'auth:api'], function() {
+//    Users
+    Route::get('users', [UserController::class, 'index'])->middleware('can:index,user');
+});
+//    Roles
+Route::get('roles', [RoleController::class, 'index']);

@@ -1,4 +1,3 @@
-
 // Pages
 import Home from '../components/pages/Home'
 import Register from '../components/pages/Register'
@@ -15,12 +14,16 @@ const routes = [
         name: 'home',
         component: Home,
         beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']) {
-                return next({
-                    name:'login'
-                })
+            try {
+                if (!store.getters['auth/authenticated']) {
+                    return next({
+                        name: 'login'
+                    })
+                }
+            } catch(e) {
+                console.log(e);
             }
-            next()
+                next()
         }
     },
     // USER ROUTES
@@ -29,9 +32,9 @@ const routes = [
         name: 'dashboard',
         component: Dashboard,
         beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']) {
+            if (!store.getters['auth/authenticated']) {
                 return next({
-                    name:'login'
+                    name: 'login'
                 })
             }
             next()
@@ -42,9 +45,9 @@ const routes = [
         name: 'add',
         component: Add,
         beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']) {
+            if (!store.getters['auth/authenticated']) {
                 return next({
-                    name:'login'
+                    name: 'login'
                 })
             }
             next()
@@ -56,9 +59,9 @@ const routes = [
         name: 'admin.dashboard',
         component: AdminDashboard,
         beforeEnter: (to, from, next) => {
-            if(!store.getters['auth/authenticated']) {
+            if (!store.getters['auth/authenticated']) {
                 return next({
-                    name:'login'
+                    name: 'login'
                 })
             }
             next()

@@ -21,7 +21,6 @@
                                 id="password"
                                 v-model="params.password"
                                 :append-icon="isVisible ? 'visibility' : 'visibility_off'"
-                                @click:append-icon-cbs="isVisible = !isVisible"
                                 :rules="passwordRules"
                                 :type="isVisible ? 'password' : 'text'"
                                 counter
@@ -31,6 +30,7 @@
                                 prepend-icon="lock"
                                 required
                                 type="password"
+                                @click:append-icon-cbs="isVisible = !isVisible"
                             ></v-text-field>
                             <v-layout justify-space-between>
                                 <v-btn
@@ -79,16 +79,14 @@ export default {
             // console.log(this.params)
             this.signIn(this.params)
                 .then(() => {
-                    this.$router.replace({
-                        name: 'home'
-                    })
-                }).catch(() => {
-                this.$router.replace({
-                    name: 'login'
-                })
-            });
+                    this.$router.replace('home')
+                }).catch((e) => {
+                    console.log(e);
+            })
 
         }
+
+
 
         // get the redirect object
         //     axios.post('api/auth/login', this.params)

@@ -7,15 +7,16 @@ import abilityPlugin from '@casl/vue'
 import abilities from './services/store/abilities'
 import store from './services/store/store'
 import vuetify from './plugins/vuetify';
+import VeeValidate from 'vee-validate'
 
 Vue.config.productionTip = false
 
 
 // Set Vue globally
-window.Vue = Vue
 
 // Set Vue router
 Vue.use(VueRouter)
+Vue.use(VeeValidate)
 
 //Load abilities
 Vue.use('abilityPlugin', 'abilities')
@@ -27,10 +28,10 @@ require('./services/store/subscriber')
 store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
     new Vue({
         el: '#app',
+        vuetify,
         router: new VueRouter({
             routes
         }),
-        vuetify,
         store: store,
     }).$mount('#app');
 

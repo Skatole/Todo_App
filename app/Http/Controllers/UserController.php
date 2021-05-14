@@ -6,6 +6,7 @@
     use Error;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Spatie\Permission\Models\Role;
     use Tymon\JWTAuth\Exceptions\JWTException;
     use Tymon\JWTAuth\Exceptions\TokenExpiredException;
     use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -81,15 +82,4 @@
 //            'data' =>  $user
 //        ]);
 //    }
-//        public function role()
-//        {
-//            $user = Auth::user();
-//            $role = $user->getUserRole()->toArray();
-//            return response()->json([
-//                'status' => 'success',
-//                'data' =>  $role
-//            ]);
-//        }
-
-
-    }
+         }
