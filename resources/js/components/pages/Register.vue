@@ -126,7 +126,6 @@ export default {
 
         await axios.get('api/roles')
             .then(response => {
-                console.log(response.data.roles)
                 for (let responseElement of response.data.roles) {
                     if (responseElement["name"] !== "Admin") {
                         this.roles.push(responseElement);

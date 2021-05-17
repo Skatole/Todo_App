@@ -1,21 +1,21 @@
 // Pages
-import Home from '../components/pages/Home'
 import Register from '../components/pages/Register'
 import Login from '../components/pages/Login'
 import Dashboard from '../components/pages/Dashboard'
-import Add from '../components/pages/Add'
+import Add from '../components/pages/Posts/Add'
 import AdminDashboard from '../components/pages/admin/Dashboard'
 import store from '../services/store/store'
+import Posts from "../components/pages/Posts/Posts";
 
 // Routes
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Home,
+        name: 'dashboard',
+        component: Dashboard,
         beforeEnter: (to, from, next) => {
             try {
-                if (!store.getters['auth/authenticated']) {
+                if (!store.getters['authenticated']) {
                     return next({
                         name: 'login'
                     })
@@ -24,28 +24,21 @@ const routes = [
                 console.log(e);
             }
                 next()
-        }
+        },
+        children: [
+            {
+                path: '',
+                component: Posts
+            }
+        ],
     },
     // USER ROUTES
-    {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters['auth/authenticated']) {
-                return next({
-                    name: 'login'
-                })
-            }
-            next()
-        }
-    },
     {
         path: '/add',
         name: 'add',
         component: Add,
         beforeEnter: (to, from, next) => {
-            if (!store.getters['auth/authenticated']) {
+            if (!store.getters['authenticated']) {
                 return next({
                     name: 'login'
                 })
@@ -59,7 +52,7 @@ const routes = [
         name: 'admin.dashboard',
         component: AdminDashboard,
         beforeEnter: (to, from, next) => {
-            if (!store.getters['auth/authenticated']) {
+            if (!store.getters['authenticated']) {
                 return next({
                     name: 'login'
                 })

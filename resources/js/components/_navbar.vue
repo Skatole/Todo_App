@@ -29,18 +29,18 @@
                         color="grey darken-1"
                         size="32"
                     ></v-avatar>
-                    <li v-for="role in user.role"> {{role.name}}</li>
+                    <li v-for="role in role"> {{role.name}}</li>
                     <v-btn
                         class="flex align-content-around"
                         text>
-                        <router-link to="home">Home</router-link>
+                        <router-link :to="'/'">Dashboard</router-link>
 
                     </v-btn>
 
                     <v-btn
                         class="flex align-content-around"
                         text>
-                        <router-link to="add">Add</router-link>
+                        <router-link :to="{'name': 'add'}">Add</router-link>
 
                     </v-btn>
                     <v-btn
@@ -51,16 +51,6 @@
                     </v-btn>
 
                 <v-spacer></v-spacer>
-
-                <v-responsive max-width="260">
-                    <v-text-field
-                        dense
-                        flat
-                        hide-details
-                        rounded
-                        solo-inverted
-                    ></v-text-field>
-                </v-responsive>
                 </template>
             </v-container>
         </v-app-bar>
@@ -78,20 +68,20 @@ export default {
 
     computed: {
         ...mapGetters({
-            authenticated: 'auth/authenticated',
-            user: 'auth/user',
+            authenticated: 'authenticated',
+            user: 'user',
+            role: 'role'
 
         })
     },
 
     methods: {
         ...mapActions({
-            logOutAction: 'auth/logout'
+            logOutAction: 'logout'
         }),
 
         logOut() {
             this.logOutAction()
-
         }
     }
 }

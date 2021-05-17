@@ -7,10 +7,10 @@
                         <v-toolbar-title>Login form</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <v-form v-model="valid" @submit.prevent="login">
+                        <v-form v-model="valid" @submit.prevent="loginUser">
                             <v-text-field
                                 v-model="params.email"
-                                :rules="emailRules"
+                                :rules="rules.emailRules"
                                 label="E-mail"
                                 name="login"
                                 prepend-icon="person"
@@ -21,16 +21,15 @@
                                 id="password"
                                 v-model="params.password"
                                 :append-icon="isVisible ? 'visibility' : 'visibility_off'"
-                                :rules="passwordRules"
+                                :rules="rules.passwordRules"
                                 :type="isVisible ? 'password' : 'text'"
+                                :value="isVisible"
                                 counter
-                                label="Password"
-                                min="8"
+                                label="Confirm Password"
                                 name="password"
                                 prepend-icon="lock"
                                 required
-                                type="password"
-                                @click:append-icon-cbs="isVisible = !isVisible"
+                                @click:append="() => (isVisible = !isVisible)"
                             ></v-text-field>
                             <v-layout justify-space-between>
                                 <v-btn
@@ -48,7 +47,7 @@
 
 </template>
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapState } from 'vuex'
 
 export default {
     data() {
@@ -57,31 +56,30 @@ export default {
                 email: null,
                 password: null,
             },
-            isVisible: false,
+            isVisible: true,
             valid: false,
-            passwordRules: [
-                (v) => !!v || 'Password is required',
-            ],
-            emailRules: [
-                (v) => !!v || 'E-mail is required',
-                (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-            ],
+            rules: {
+                passwordRules: [
+                    (v) => !!v || 'Password is required',
+                ],
+                emailRules: [
+                    (v) => !!v || 'E-mail is required',
+                    (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+                ],
+            },
         }
     },
     mounted() {
         //
     },
     methods: {
-        ...mapActions({
-            signIn: 'auth/login'
-        }),
-        login() {
-            // console.log(this.params)
-            this.signIn(this.params)
+        ...mapActions(['login']),
+        async loginUser() {
+            return this.login(this.params)
                 .then(() => {
-                    this.$router.replace('home')
-                }).catch((e) => {
-                    console.log(e);
+                    this.$router.replace('dashboard')
+                }).catch(error => {
+                    this.$store.dispatch('notifications/error', error.message)
             })
 
         }

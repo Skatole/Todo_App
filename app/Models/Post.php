@@ -14,13 +14,14 @@ class Post extends Model
 
     protected  $fillable = [
         'title',
-        'post_text',
-        'category_id',
+        'task',
         'user_id',
         'is_task_done',
+        'order',
+        'dead_line'
     ];
 
-    public function user() {
+	public function user() {
         return $this->belongsTo('App/Models/User');
     }
 }

@@ -63,15 +63,16 @@
 //            ], 200);
         }
 
-        public function show(User $user)
+        public function show(Request $request)
         {
-            $this->authorize(['show' => $user]);
-
-            return response()->json(
-                [
-                    'status' => 'success',
-                    'data' => $user->toArray()
-                ], 200);
+            $user = $request->user();
+            $role = $user->getUserRole();
+            $permissions = $user->getAllPermissionsAttribute();
+            return response()->json([
+                'user' => $user,
+                'role' => $role,
+                'permissions' => $permissions
+            ]);
         }
 
 //    public function user()
