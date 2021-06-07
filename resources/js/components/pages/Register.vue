@@ -57,15 +57,13 @@
                                 @click:append="() => (confirmPasswordVisible = !confirmPasswordVisible)"
                             ></v-text-field>
 
-
                             <v-select
                                 v-model="params.role"
                                 :items="roles"
                                 item-text="name"
                                 item-value="id"
-                                label="Role">
+                                label="Your Role">
                             </v-select>
-
 
                             <v-layout justify-space-between>
                                 <v-btn
@@ -91,9 +89,6 @@ export default {
 
     data() {
         return {
-            valid: false,
-            passwordVisible: true,
-            confirmPasswordVisible: true,
             params: {
                 name: null,
                 email: null,
@@ -101,6 +96,11 @@ export default {
                 password_confirmation: null,
                 role: '',
             },
+            valid: false,
+            passwordVisible: true,
+            confirmPasswordVisible: true,
+            requestedManagers: [],
+            chosenManager: [],
             roles: [],
             errorMessages: [],
             rules: {
@@ -132,7 +132,7 @@ export default {
 
                     }
                 }
-            })
+            });
     },
 
     methods: {
@@ -145,33 +145,6 @@ export default {
             })
 
         },
-
-
-        // get the redirect object
-        //     axios.post('api/auth/login', this.params)
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             this.user = response.data;
-        //             this.$store.commit('login', this.user);
-        //             window.localStorage.setItem('authUser', JSON.stringify(this.user))
-        //             axios.get('api/users/' + this.params,
-        //             {headers: { 'Authorization' : 'Bearer '+ api_token}})
-        //                 .then(response => {
-        //                     this.user = response.data;
-        //                     console.log(this.user);
-        //                     this.$store.commit('getUser', this.user)
-        //                 });
-        //             axios.get('api/role',
-        //                 {headers: { 'Authorization' : 'Bearer '+ api_token}})
-        //                 .then(response => {
-        //                     console.log(response.data);
-        //                     this.$store.commit('login', response.data)
-        //                 })
-        //
-        //                 this.$router.push('home');
-        //         }
-        //
-        //     })
     },
 }
 </script>

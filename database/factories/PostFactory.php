@@ -26,7 +26,6 @@ class PostFactory extends Factory
             'title'=> $this->faker->word,
             'task'=> $this->faker->text(500),
             'order' => $order++,
-            'user_id' => rand(1, 10),
         ];
     }
 }

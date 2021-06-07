@@ -6,12 +6,12 @@ import Add from '../components/pages/Posts/Add'
 import AdminDashboard from '../components/pages/admin/Dashboard'
 import store from '../services/store/store'
 import Posts from "../components/pages/Posts/Posts";
+import Reference from '../components/pages/Posts/Reference'
 
 // Routes
 const routes = [
     {
         path: '/',
-        name: 'dashboard',
         component: Dashboard,
         beforeEnter: (to, from, next) => {
             try {
@@ -28,8 +28,9 @@ const routes = [
         children: [
             {
                 path: '',
+                name: 'dashboard',
                 component: Posts
-            }
+            },
         ],
     },
     // USER ROUTES

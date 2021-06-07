@@ -4,6 +4,7 @@ import auth from './auth';
 import storage from "./storage";
 import notifications from "./notifications";
 import posts from "./posts";
+import reference from './reference';
 import abilityPlugin from './abilities';
 import {Ability} from '@casl/ability'
 import axios from "axios";
@@ -38,6 +39,7 @@ export default new Vuex.Store(
         modules: {
             notifications,
             posts,
+            reference
         },
 
         state: {
@@ -45,6 +47,9 @@ export default new Vuex.Store(
             user: {},
             rules: [],
             role: '',
+            developers: {},
+            managers: {},
+            subject: 'all'
         },
 
 
@@ -54,8 +59,14 @@ export default new Vuex.Store(
             },
 
             ability() {
-                return new Ability()
-            },
+                return new Ability([], {
+                  subjectName(subject) {
+                    return !subject || typeof subject === 'string'
+                      ? subject
+                      : subject[TYPE_KEY]
+                  }
+                })
+              },
 
             authenticated(state) {
                 return state.token && state.user
@@ -71,6 +82,14 @@ export default new Vuex.Store(
 
             role(state) {
               return state.role
+            },
+
+            developers(state) {
+                return state.developers
+            },
+
+            managers(state) {
+                return state.managers
             }
         },
 
@@ -91,6 +110,14 @@ export default new Vuex.Store(
             SET_TOKEN(state, token) {
                 state.token = token
             },
+
+            SET_DEVELOPERS(state, data) {
+                state.developers = data.developers
+            },
+
+            SET_MANAGERS(state, data) {
+                state.managers = data.managers
+            }
         },
 
         actions: {
@@ -143,8 +170,24 @@ export default new Vuex.Store(
             forbidden({dispatch}, response) {
                 dispatch('notifications/error', response.body.message)
                 router.back()
-            }
-        }
+            },
+
+            async getAllDevUsers({commit}) {
+                return await axios.get('api/auth/users/developers')
+                .then(response => {
+                    commit('SET_DEVELOPERS', response.data)
+                })
+            },
+
+            async getAllManUsers({commit}) {
+                return await axios.get('api/auth/users/managers')
+                .then(response => {
+                    commit('SET_MANAGERS', response.data)
+                })
+            },
+        },
+
+
 
     });
 

@@ -18,7 +18,6 @@
                 'id' => $this->id,
                 'title' => $this->title,
                 'task' => $this->task,
-                'user_id' => $this->user_id,
                 'is_task_done' => $this->is_task_done,
                 'order' => $this->order,
                 'deadline' => $this->deadline,

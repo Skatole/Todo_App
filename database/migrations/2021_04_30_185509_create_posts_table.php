@@ -17,7 +17,6 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('task');
-            $table->integer('user_id');
             $table->boolean('is_task_done')->default(false);
             $table->integer('order')->nullable();
             $table->timestamps();

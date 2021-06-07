@@ -20,47 +20,31 @@
         }
 
 //    For the Admin:
-        public function index(Request $request)
+        public function index()
         {
-                $user = $request->user();
-                $role = $user->getUserRole();
-                return response()->json([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => $role
+            $user = User::all();
+            return response()->json([
+                'state' => 'index called',
+                'users' => $user,
+            ]);
+        }
 
-                ]);
-//            try {
-//
-//            }  catch ( TokenExpiredException $exception ) {
-//                return response()->json( [
-//                    'error'   => true,
-//                    'message' => trans( 'auth.token.expired' )
-//
-//                ], 401 );
-//            } catch ( TokenInvalidException $exception ) {
-//                return response()->json( [
-//                    'error'   => true,
-//                    'message' => trans( 'auth.token.invalid' )
-//                ], 401 );
-//
-//            } catch ( JWTException $exception ) {
-//                return response()->json( [
-//                    'error'   => true,
-//                    'message' => trans( 'auth.token.missing' )
-//                ], 500 );
-//            } catch (Error $ex) {
-//                return response()->json([
-//                    'error'   => true,
-//                    'message' => $ex
-//                ]);
-//            }
-//            $this->authorize(['index' => $user]);
-//            $users = User::all();
-//            return response()->json([
-//                'status' => 'Success',
-//                'users' => $users->toArray()
-//            ], 200);
+        public function getAllDevelopers() {
+            $developers = User::whereHas("roles", function($q) {
+                $q->where("name", "Developer");
+            })->get();
+                return response()->json([
+                    'developers' => $developers
+                    ]);
+        }
+
+        public function getAllManagers() {
+            $managers = User::whereHas("roles", function($q) {
+                $q->where("name", "Manager");
+            })->get();
+            return response()->json([
+               'managers' => $managers
+            ]);
         }
 
         public function show(Request $request)
@@ -75,6 +59,33 @@
             ]);
         }
 
+//        Reference :
+
+        // public function addReference(User $user)
+        // {
+        //     Auth::user()->addReference($user);
+        //     return response()->json([
+        //         'status' => 'success',
+        //     ]);
+        // }
+
+        // public function removeReference(User $user)
+        // {
+        //     Auth::user()->removeReference($user);
+        //     return response()->json([
+        //         'status' => 'success',
+        //     ]);
+        // }
+
+        // public function getReferredUsers(Request $request)
+        // {
+
+        //         return response()->json([
+        //             'status' => 'success',
+        //             'referredUser' => $referredUser
+        //         ]);
+        //     }
+        // }
 //    public function user()
 //    {
 //        $user = Auth::user()->toArray();
@@ -83,4 +94,6 @@
 //            'data' =>  $user
 //        ]);
 //    }
-         }
+    // }
+
+}

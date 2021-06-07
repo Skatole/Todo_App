@@ -15,13 +15,20 @@ class Post extends Model
     protected  $fillable = [
         'title',
         'task',
-        'user_id',
         'is_task_done',
         'order',
         'dead_line'
     ];
 
-	public function user() {
-        return $this->belongsTo('App/Models/User');
+
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'post_user', 'post_id', 'user_id');
+    }
+
+    public function referencedUser()
+    {
+        return $this->belongsToMany(User::class, 'post_user', 'post_id', 'reference_id');
     }
 }

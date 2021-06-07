@@ -2,7 +2,7 @@
     <div>
         <v-app-bar
             app
-            color="white"
+            color="#2F4F4F"
             flat
         >
             <v-container class="py-0 fill-height">

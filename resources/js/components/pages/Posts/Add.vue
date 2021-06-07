@@ -5,7 +5,7 @@
                 <v-flex md9 sm8 xs12>
                     <v-card class="elevation-1">
                         <v-toolbar color="primary" dark>
-                            <v-toolbar-title>Register form</v-toolbar-title>
+                            <v-toolbar-title color="primary" >Register form</v-toolbar-title>
                         </v-toolbar>
                         <v-card-text>
                             <v-form  v-model="valid"  @submit.prevent="addPost">
@@ -25,8 +25,10 @@
                                                 required
                                                 rounded
                                             ></v-text-field>
+
                                         </v-col>
                                         <v-col>
+
                                             <v-textarea
                                                 v-model="params.task"
                                                 :rules="rules.taskRules"
@@ -36,13 +38,15 @@
                                                 required
                                                 rounded
                                             ></v-textarea>
+
                                         </v-col>
                                         <v-col>
 
                                             <v-datetime-picker
                                                 v-model="params.deadline"
                                                 datetime="Date"
-                                                label="Select Datetime"></v-datetime-picker>
+                                                label="Select Deadline"></v-datetime-picker>
+
                                         </v-col>
                                         <!--            Category:-->
                                         <!--            <select v-model="params" class="form-control">-->

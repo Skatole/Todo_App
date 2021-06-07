@@ -1,19 +1,18 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css'
+// import 'vuetify/dist/vuetify.min.css'
 import DatetimePicker from 'vuetify-datetime-picker'
+import  colors  from 'vuetify/lib/util/colors';
 // (Optional) import 'vuetify-datetime-picker/src/stylus/main.styl'
 
 
-import colors from 'vuetify/lib/util/colors'
-Vue.use(Vuetify);
-Vue.use(DatetimePicker)
+Vue.use(Vuetify)
 
-export default new Vuetify({
-    icons: {
-        iconfont: 'md' || 'fa'
-    },
+Vue.use(DatetimePicker)
+const vuetify =  new Vuetify({
     theme: {
         dark: true
-    },
-});
+    }
+})
+
+export default vuetify

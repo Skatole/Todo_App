@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from "./store";
-import {root} from "postcss";
+import { root } from "postcss";
 
 export default {
     namespaced: true,
@@ -10,9 +10,9 @@ export default {
     },
 
     getters: {
-      posts(state) {
-          return state.posts;
-      }
+        posts(state) {
+            return state.posts;
+        }
     },
 
     mutations: {
@@ -24,34 +24,37 @@ export default {
             state.newPost = data.post
         },
 
-        ADD_CURRENT_USER_ID(state, data) {
-            state.newPost.push(data)
-        },
-
         ADD_POST(state) {
             state.posts.push(state.newPost)
-        }
+        },
+
+        UPDATE_POSTS_SCOPE(state, data) {
+            state.posts = [];
+            state.posts = data.posts
+
+        },
 
     },
 
     actions: {
-        async getAllPosts({ dispatch, commit }) {
+        async getAllPosts({ commit }) {
             await axios.get('/api/posts')
                 .then(response => {
                     commit('SET_POSTS', response.data)
+
                 })
         },
 
-        async getUserPosts({ dispatch, commit }) {
-            await axios.get('/api/posts/', store.state.user.id)
+        async getUserPosts({ commit, rootGetters }, user) {
+            await axios.get('/api/posts/' + user.id)
                 .then(response => {
-                    commit('SET_POSTS', response.data)
-                    })
+                    commit('UPDATE_POSTS_SCOPE', response.data)
+                })
         },
 
         async addNewDeveloperPost({ commit, rootState }, post) {
 
-           // post[ 'user_id' ] = rootState.user.id;
+            // post[ 'user_id' ] = rootState.user.id;
             if (post.user_id === null) {
                 post.user_id = rootState.user.id
                 console.log(post)
@@ -61,6 +64,18 @@ export default {
                     commit('NEW_POST', response.data)
                     commit('ADD_POST')
                 })
+        },
+
+        async updatePost({ commit }, post) {
+            axios.put('/api/posts/' + post.id, post)
+                .then(response => {
+                    commit('NEW_POST', response.data)
+                    commit('ADD_POST')
+                })
+        },
+
+        async deletePost( post) {
+            axios.delete("/api/posts/" + post.id)
         }
     }
 
