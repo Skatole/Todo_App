@@ -76,26 +76,37 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(
             Post::class,
             'post_user',
+            'post_id',
             'user_id',
-            'post_id'
         );
 
     }
 
-    public function referencePost() {
-
-        return $this->belongsToMany(
-            Post::class,
-            'post_user',
-            'reference_id',
-            'post_id'
-        );
-    }
 
 
-    public function addReference(User $user)
+    // public function referencePost() {
+
+    //     return $this->belongsToMany(
+    //         Post::class,
+    //         'post_user',
+    //         'reference_id',
+    //         'user_id',
+    //         'post_id',
+    //     );
+    // }
+
+
+    public static function addDefaultReference(User $user)
     {
-        $this->reference()->attach($user->id);
+        $authUser = Auth::user()->id;
+        $authUser->reference()->attach($user->id);
+    }
+
+    public static function addUniqueReference(User $user, Post $post)
+    {
+        $authUser = Auth::user()->id;
+        $authUser->reference()->attach($user->id);
+        $authUser->post()->attach($post->id);
     }
 
     public function getAllPermissionsAttribute()

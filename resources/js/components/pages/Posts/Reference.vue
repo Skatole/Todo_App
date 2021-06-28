@@ -26,8 +26,9 @@
                 label="Developers"
                 dense
                 :items="developers"
-                item-text='Manager'
-                ></v-combobox> </v-list-item-title>
+                >
+                <option value="items"></option>
+                </v-combobox> </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -40,18 +41,22 @@
 
             >
                 <v-combobox
-
-                label="Managers"
-                dense
                 :items="managers"
-                
-                ></v-combobox>
+                @change="selectedRefUser"
+                label="Managers"
+                item-text="Manager"
+                dense
+                clearable
+                >
+                </v-combobox>
             </v-list-item-title>
 
           </v-list-item-content>
         </v-list-item>
 
         <v-divider class="my-2" v-show="$can('view managers')"></v-divider>
+
+
 
       </v-list>
     </v-col>
@@ -65,6 +70,9 @@ export default {
       this.viewManager(),
       this.viewDevelopers()
   },
+
+
+
 
   data() {
     return {
@@ -91,6 +99,8 @@ export default {
       userPosts: "posts/getUserPosts",
       allDevelopers: "getAllDevUsers",
       allManagers: "getAllManUsers",
+      reference: "getUserReferences",
+      referencedPost: "posts/getReferencedPosts"
     }),
 
     async userTasks(event) {
@@ -107,24 +117,38 @@ export default {
     },
 
     async viewManager() {
-        await this.allManagers().then(() => {
+        await this.reference().then(() => {
             this.managersGetter.forEach(element => {
                 this.managers.push(element.name)
             });
         })
-
         return this.users
 
     },
 
     async viewDevelopers() {
-        await this.allDevelopers().then(() => {
-            this.developersGetter.forEach(element => {
-                this.developers.push(element.name)
-            })
+        await this.reference().then(() => {
+            // this.developersGetter.forEach(element => {
+            //     this.developers.push(element.name)
+            // })
         })
+    },
+
+    async selectedRefUser(value) {
+         await this.managersGetter.forEach(element => {
+
+                 if (element.name === value) {
+                     this.referencedPost(element)
+                        .then(() => {
+                            this.$emit('changeParams', true);
+                        })
+                 }
+
+
+         })
     }
   },
+
 };
 </script>
 <style >

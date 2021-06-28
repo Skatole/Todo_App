@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use ErrorException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -139,7 +140,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-      
+
         $post->delete();
         return response()->json([
             'status' => 'success'

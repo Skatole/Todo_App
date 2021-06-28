@@ -30,7 +30,7 @@ export default {
 
         UPDATE_POSTS_SCOPE(state, data) {
             state.posts = [];
-            state.posts = data.posts
+            state.posts = data
 
         },
 
@@ -48,8 +48,19 @@ export default {
         async getUserPosts({ commit, rootGetters }, user) {
             await axios.get('/api/posts/' + user.id)
                 .then(response => {
-                    commit('UPDATE_POSTS_SCOPE', response.data)
+                    commit('UPDATE_POSTS_SCOPE', response.data.posts)
                 })
+        },
+
+        async getReferencedPosts({commit, rootGetters}, user) {
+            let refPost = rootGetters["referencedUserPosts"]
+            for (const element of refPost) {
+
+                if (user.id === element.pivot.reference_id) {
+                    commit('UPDATE_POSTS_SCOPE', refPost)
+                    console.log(refPost)
+                }
+            }
         },
 
         async addNewDeveloperPost({ commit, rootState }, post) {
@@ -76,6 +87,10 @@ export default {
 
         async deletePost( post) {
             axios.delete("/api/posts/" + post.id)
+        },
+
+        async postReference({commit, rootGetters}) {
+            commit('UPDATE_POSTS_SCOPE', rootGetters['referencedPosts'])
         }
     }
 

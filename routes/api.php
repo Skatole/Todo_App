@@ -34,9 +34,9 @@
         Route::get('users', [UserController::class, 'index']);
         Route::get('users/developers', [UserController::class, 'getAllDevelopers']);
         Route::get('users/managers', [UserController::class, 'getAllManagers']);
-        Route::post('user/add', [UserController::class, 'addReference']);
-        Route::delete('user/remove', [UserController::class, 'removeReference']);
-//   Route::get('refresh', [AuthController::class, 'refresh']);
+        Route::get('users/reference', [UserController::class, 'getCurrentUserReferences']);
+        Route::post('user/addDefaultRef', [UserController::class, 'addDefaultReference']);
+        Route::post('user/addUniquetRef', [UserController::class, 'addUniqueReference']);
     });
 
 //    Users and references
@@ -48,7 +48,7 @@
 
         Route::apiResource('posts', 'App\Http\Controllers\PostController');
         Route::put('posts/updateSwitch', [PostController::class, 'updateSwitch']);
-        
+
     });
 
 //  Roles
